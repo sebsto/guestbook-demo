@@ -1,0 +1,28 @@
+{
+  "name": "guestbook-cdk",
+  "version": "0.1.0",
+  "bin": {
+    "guestbook-cdk": "bin/guestbook-cdk.js"
+  },
+  "scripts": {
+    "build": "echo \"The build step is not required when using JavaScript!\" && exit 0",
+    "cdk": "cdk",
+    "test": "jest"
+  },
+  "devDependencies": {
+    "@aws-cdk/assert": "1.42.0",
+    "aws-cdk": "1.42.0",
+    "jest": "^25.3.0"
+  },
+  "dependencies": {
+    "@aws-cdk/aws-autoscaling": "^1.45.0",
+    "@aws-cdk/aws-cloudformation": "^1.45.0",
+    "@aws-cdk/aws-ec2": "^1.42.0",
+    "@aws-cdk/aws-elasticloadbalancingv2": "^1.45.0",
+    "@aws-cdk/aws-lambda": "^1.45.0",
+    "@aws-cdk/aws-rds": "^1.44.0",
+    "@aws-cdk/aws-secretsmanager": "^1.44.0",
+    "@aws-cdk/core": "1.42.0",
+    "aws-sdk": "^2.695.0"
+  }
+}

@@ -1,0 +1,19 @@
+[Unit]
+Description=GuestBook Backend
+#After=mariadb.service
+
+[Service]
+EnvironmentFile=/opt/guestbook.env
+ExecStart=/bin/node bin/www
+WorkingDirectory=/opt/guestbook/guestbook-app/
+LimitNOFILE=4096
+IgnoreSIGPIPE=false
+KillMode=process
+User=ec2-user
+Restart=always
+RestartSec=2
+StandardError=syslog
+SyslogIdentifier=guestbook
+
+[Install]
+WantedBy=multi-user.target
