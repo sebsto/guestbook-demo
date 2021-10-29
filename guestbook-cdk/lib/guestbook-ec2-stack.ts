@@ -14,9 +14,11 @@ export class GuestbookEc2Stack extends Stack {
 
     let vpc : ec2.Vpc;
     let dbSecurityGroup : ec2.SecurityGroup;
+    let dbSecretName : string;
     if (props)  {
       vpc = props!.vpc;
       dbSecurityGroup = props!.dbSecurityGroup!;
+      dbSecretName = props!.dbSecretName!;
     } else {
       throw new Error("Guestbook props must be defined.")
     }
@@ -44,10 +46,9 @@ export class GuestbookEc2Stack extends Stack {
     applicationRole.addManagedPolicy(iam.ManagedPolicy.fromAwsManagedPolicyName("AmazonSSMManagedInstanceCore"));
 
     // User data that will deploy the application on the instance
-    const secretName = "guestbookapp-db-master-credentials";
     var userdata = ec2.UserData.forLinux();
     userdata.addCommands(
-      `echo "GUESTBOOK_SECRET_NAME=${secretName}" >> /opt/guestbook.env`,
+      `echo "GUESTBOOK_SECRET_NAME=${dbSecretName}" >> /opt/guestbook.env`,
       `echo "GUESTBOOK_REGION=${process.env.CDK_DEFAULT_REGION}" >> /opt/guestbook.env`,
       'echo "PORT=8080" >> /opt/guestbook.env',
       'curl https://raw.githubusercontent.com/sebsto/guestbook-demo/main/guestbook-app/setup/userdata.sh > /tmp/userdata.sh', 
