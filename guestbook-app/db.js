@@ -55,6 +55,9 @@ client.getSecretValue({SecretId: secretName}, function(err, data) {
             if (err) {
                 console.log('error when connecting to db:', err);
                 setTimeout(handleDisconnect, 2000);
+            } else {
+                console.log('connected to database');
+                initSchema();
             }
         });
 
@@ -73,6 +76,19 @@ client.getSecretValue({SecretId: secretName}, function(err, data) {
 
 
 module.exports = {
+
+    initSchema: function(databaseName, callback) {
+        console.log('creating schema if necessary');
+        connection.query("CREATE DATABASE IF NOT EXISTS " + databaseName +"; CREATE TABLE IF NOT EXISTS " + databaseName + ".guestbook ( \
+            `id` INT NOT NULL AUTO_INCREMENT, \
+            `name` VARCHAR(32) NOT NULL, \
+            `message` TEXT NULL, \
+            `date` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP, \
+            PRIMARY KEY (`id`));", function (err, rows, fields) {
+                callback(err, rows);
+             });
+    },
+
 
     // Return all post made to the guestbook
     getGuestbook: function(callback) {
