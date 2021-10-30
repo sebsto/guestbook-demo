@@ -20,6 +20,23 @@ var client = new AWS.SecretsManager({
 
 var connection;
 
+function initSchema (databaseName) {
+    console.log('creating schema if necessary', databaseName);
+    connection.query("CREATE DATABASE IF NOT EXISTS " + databaseName +"; CREATE TABLE IF NOT EXISTS " + databaseName + ".guestbook ( \
+        `id` INT NOT NULL AUTO_INCREMENT, \
+        `name` VARCHAR(32) NOT NULL, \
+        `message` TEXT NULL, \
+        `date` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP, \
+        PRIMARY KEY (`id`));", function (err, rows, fields) {
+            if (err) {
+                console.log('Cannot create database schema', err);
+            } else {
+                console.log('database schema created', rows);
+            }
+
+         });
+}
+
 // In this sample we only handle the specific exceptions for the 'GetSecretValue' API.
 // See https://docs.aws.amazon.com/secretsmanager/latest/apireference/API_GetSecretValue.html
 // We rethrow the exception by default.
@@ -45,7 +62,8 @@ client.getSecretValue({SecretId: secretName}, function(err, data) {
         host: secretJSON.host || (process.env.db_info && process.env.db_info.host) || cfg.get('db:host'),
         user: secretJSON.username || (process.env.db_info && process.env.db_info.username) || cfg.get('db:username'),
         password: secretJSON.password || (process.env.db_info && process.env.db_info.password) || cfg.get('db:password'),
-        database: secretJSON.database || (process.env.db_info && process.env.db_info.database) || cfg.get('db:database')
+        //database: secretJSON.database || (process.env.db_info && process.env.db_info.database) || cfg.get('db:database')
+        database: process.env.DATABASE || "guestbook"
     };
 
     function handleDisconnect() {
@@ -57,7 +75,7 @@ client.getSecretValue({SecretId: secretName}, function(err, data) {
                 setTimeout(handleDisconnect, 2000);
             } else {
                 console.log('connected to database');
-                initSchema();
+                initSchema(db_config.database);
             }
         });
 
@@ -76,19 +94,6 @@ client.getSecretValue({SecretId: secretName}, function(err, data) {
 
 
 module.exports = {
-
-    initSchema: function(databaseName, callback) {
-        console.log('creating schema if necessary');
-        connection.query("CREATE DATABASE IF NOT EXISTS " + databaseName +"; CREATE TABLE IF NOT EXISTS " + databaseName + ".guestbook ( \
-            `id` INT NOT NULL AUTO_INCREMENT, \
-            `name` VARCHAR(32) NOT NULL, \
-            `message` TEXT NULL, \
-            `date` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP, \
-            PRIMARY KEY (`id`));", function (err, rows, fields) {
-                callback(err, rows);
-             });
-    },
-
 
     // Return all post made to the guestbook
     getGuestbook: function(callback) {
