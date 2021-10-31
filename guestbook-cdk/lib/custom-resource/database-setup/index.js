@@ -2,14 +2,13 @@ exports.main = function(event, context, callback) {
     // Load the AWS SDK
     var AWS = require('aws-sdk');
     const region = process.env.AWS_REGION;
-    var mysql = require('mysql');
     var cfnresponse = require('cfn-response');
     var secret = null;
     var decodedBinarySecret = null;
 
+    console.log('Environment [secretName] :', process.env.secretName)
     console.log('Starting Lambda using region: ' + region);
     console.log('Event received', event);
-    console.log('Environment [secretName] :', process.env.secretName)
     
     // Only execute following code on create (do nothing in other cases)
     if (event.RequestType != 'Create') {
@@ -27,6 +26,8 @@ exports.main = function(event, context, callback) {
     // We rethrow the exception by default.
     
     client.getSecretValue({SecretId: process.env.secretName}, function(err, data) {
+        console.log('secret retrieved');
+        
         if (err) {
             if (err.code === 'DecryptionFailureException')
                 // Secrets Manager can't decrypt the protected secret text using the provided KMS key.
@@ -52,6 +53,7 @@ exports.main = function(event, context, callback) {
         else {
             // Decrypts secret using the associated KMS CMK.
             // Depending on whether the secret is a string or binary, one of these fields will be populated.
+            console.log(data);
             if ('SecretString' in data) {
                 secret = data.SecretString;
             } else {
@@ -60,7 +62,9 @@ exports.main = function(event, context, callback) {
             }
         }
         
+        console.log('Secret', secret)
         var secretJson = JSON.parse(secret);
+
         var mysql = require('mysql');
         var con = mysql.createConnection({
           host: secretJson.host,

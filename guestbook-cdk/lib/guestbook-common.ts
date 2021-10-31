@@ -3,6 +3,6 @@ import { StackProps } from 'aws-cdk-lib';
 
 export interface GuestBookProps extends StackProps {
     vpc : ec2.Vpc;
-    dbSecurityGroup? : ec2.SecurityGroup;
     dbSecretName? : string;
+    dbSecurityGroup? : ec2.SecurityGroup;
   }

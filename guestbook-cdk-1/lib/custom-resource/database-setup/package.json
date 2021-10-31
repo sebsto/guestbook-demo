@@ -1,7 +1,0 @@
-{
-  "dependencies": {
-    "aws-sdk": "^2.683.0",
-    "cfn-response": "^1.0.1",
-    "mysql": "^2.18.1"
-  }
-}
