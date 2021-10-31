@@ -22,12 +22,12 @@ var connection;
 
 function initSchema (databaseName) {
     console.log('creating schema if necessary', databaseName);
-    connection.query("CREATE DATABASE IF NOT EXISTS " + databaseName +"; CREATE TABLE IF NOT EXISTS " + databaseName + ".guestbook ( \
-        `id` INT NOT NULL AUTO_INCREMENT, \
-        `name` VARCHAR(32) NOT NULL, \
-        `message` TEXT NULL, \
-        `date` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP, \
-        PRIMARY KEY (`id`));", function (err, rows, fields) {
+    connection.query(`CREATE DATABASE IF NOT EXISTS ${databaseName}; CREATE TABLE IF NOT EXISTS ${databaseName}.guestbook ( \
+        "id" INT NOT NULL AUTO_INCREMENT, \
+        "name" VARCHAR(32) NOT NULL, \
+        "message" TEXT NULL, \
+        "date" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP, \
+        PRIMARY KEY ("id"));`, function (err, rows, fields) {
             if (err) {
                 console.log('Cannot create database schema', err);
             } else {
