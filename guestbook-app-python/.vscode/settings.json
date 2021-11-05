@@ -1,0 +1,15 @@
+{
+    "files.exclude": {
+        "**/.git": true,
+        "**/.DS_Store": true,
+        "**/*.pyc": true,
+        "**/__pycache__": true
+    },
+    "python.pythonPath": "/Users/stormacq/.local/share/virtualenvs/guestbook-app-python-ZWG_sxOU/bin/python",
+    "python.testing.pytestArgs": [
+        "-s"
+    ],
+    "python.testing.unittestEnabled": false,
+    "python.testing.pytestEnabled": true,
+    "terminal.integrated.env.osx": { "PYTHONPATH" : "/Users/stormacq/Documents/amazon/te/2021/30 blog/20211012 digito/code/demo/guestbook-app-python" }
+}
