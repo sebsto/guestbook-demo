@@ -13,7 +13,7 @@ app = Flask(__name__)
 def main():
     rows = read_messages()
     print(rows)
-    return render_template('index.html', { 'rows': rows })
+    return render_template('index.html', rows=rows )
 
 @app.route('/', methods=['POST'])
 def post():
