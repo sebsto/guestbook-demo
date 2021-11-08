@@ -50,12 +50,12 @@ def execute_query(query, values=None):
 def get_connection():
     print("Getting secret")
     secret = get_secret(region_name=AWS_REGION, secret_name=AWS_SECRET)
-    return connect(username=secret['username'], password=secret['password'], host=secret['host'], port=secret['port'])
+    return connect(username=secret['username'], password=secret['password'], database=secret['dbname'], host=secret['host'], port=secret['port'])
 
-def connect(username, password, host, port=3306):
+def connect(username, password, database, host, port=3306):
     global db
     if db is None:
         print("Connecting to the database")
-        db = mysql.connector.connect(host=host, port=port, user=username,password=password)
+        db = mysql.connector.connect(host=host, port=port, database=database, user=username, password=password)
     return db
 
