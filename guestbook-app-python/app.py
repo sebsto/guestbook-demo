@@ -11,9 +11,9 @@ app = Flask(__name__)
 
 @app.route('/', methods=['GET'])
 def main():
-    rows = read_messages()
-    print(rows)
-    return render_template('index.html', rows=rows )
+    data = read_messages()
+    print(data)
+    return render_template('index.html', rows=data )
 
 @app.route('/', methods=['POST'])
 def post():
