@@ -3,12 +3,12 @@ Description=GuestBook Backend
 
 [Service]
 EnvironmentFile=/opt/guestbook.env
-ExecStart=/usr/local/bin/uwsgi -s /tmp/uwsgi.sock --manage-script-name --mount /=app:app --chown-socket=nginx:nginx
+ExecStart=/usr/local/bin/uwsgi -s /tmp/uwsgi.sock --manage-script-name --mount /=app:app --chown-socket=nginx:nginx --uid ec2-user
 WorkingDirectory=/opt/guestbook/guestbook-app-python/
 LimitNOFILE=4096
 IgnoreSIGPIPE=false
 KillMode=process
-User=ec2-user
+#User=ec2-user
 Restart=always
 RestartSec=2
 StandardError=syslog

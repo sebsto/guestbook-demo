@@ -79,7 +79,7 @@ if [ ! -d ${PROJECT_DIRECTORY} ]; then
 fi
 
 ## Install the guest book service
-n -s ${PROJECT_DIRECTORY}/guestbook-app-python/setup/guestbook.service /etc/systemd/system 
+ln -s ${PROJECT_DIRECTORY}/guestbook-app-python/setup/guestbook.service /etc/systemd/system 
 
 # mv /etc/nginx/nginx.conf /etc/nginx/nginx.conf.ORIGINAL
 ln -s ${PROJECT_DIRECTORY}/guestbook-app-python/setup/nginx.conf /etc/nginx/conf.d/guestbook-app.conf
@@ -90,6 +90,6 @@ amazon-linux-extras install -y nginx1
 ## Activate the service at startup
 systemctl daemon-reload
 
-systemctl start nginx.service
+systemctl start nginx
 systemctl enable guestbook
 systemctl start guestbook
