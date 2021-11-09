@@ -1,0 +1,18 @@
+[Unit]
+Description=GuestBook Backend
+
+[Service]
+EnvironmentFile=/opt/guestbook.env
+ExecStart=/usr/local/bin/uwsgi -s /tmp/uwsgi.sock --manage-script-name --mount /=app:app --chown-socket=nginx:nginx
+WorkingDirectory=/opt/guestbook/guestbook-app-python/
+LimitNOFILE=4096
+IgnoreSIGPIPE=false
+KillMode=process
+User=ec2-user
+Restart=always
+RestartSec=2
+StandardError=syslog
+SyslogIdentifier=guestbook
+
+[Install]
+WantedBy=multi-user.target
