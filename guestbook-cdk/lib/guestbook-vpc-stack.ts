@@ -19,11 +19,11 @@ export class GuestbookVpcStack extends Stack {
           name: 'public - load balancer',
           cidrMask: 24,
         }, {
-          subnetType: ec2.SubnetType.PRIVATE,
+          subnetType: ec2.SubnetType.PRIVATE_ISOLATED,
           name: 'private - application',
           cidrMask: 24
         }, {
-          subnetType: ec2.SubnetType.ISOLATED,
+          subnetType: ec2.SubnetType.PRIVATE_ISOLATED,
           name: 'isolated - database',
           cidrMask: 24
         }]
