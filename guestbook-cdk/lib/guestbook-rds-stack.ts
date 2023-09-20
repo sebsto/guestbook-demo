@@ -50,14 +50,14 @@ export class GuestbookRdsClusterStack extends GuestbookRdsStack {
     
     // Aurora MySQL with t3.small instances
     const cluster = new rds.DatabaseCluster(this, 'Database', {
-      engine: rds.DatabaseClusterEngine.auroraMysql({ version: rds.AuroraMysqlEngineVersion.VER_2_09_2 }),
+      engine: rds.DatabaseClusterEngine.auroraMysql({ version: rds.AuroraMysqlEngineVersion.VER_3_04_0 }),
       credentials: rds.Credentials.fromGeneratedSecret('admin'), // Optional - will default to 'admin' username and generated password
       defaultDatabaseName: GuestbookRdsStack.dbName,
       instanceProps: {
         // optional , defaults to t3.medium
-        instanceType: ec2.InstanceType.of(ec2.InstanceClass.BURSTABLE3, ec2.InstanceSize.SMALL),
+        instanceType: ec2.InstanceType.of(ec2.InstanceClass.BURSTABLE3, ec2.InstanceSize.MEDIUM),
         vpcSubnets: {
-          subnetType: ec2.SubnetType.ISOLATED,
+          subnetType: ec2.SubnetType.PRIVATE_ISOLATED,
         },
         vpc: this.vpc,
         securityGroups: [this.dbSecurityGroup]
@@ -75,12 +75,12 @@ export class GuestbookRdsSingleStack extends GuestbookRdsStack {
   constructor(scope: Construct, id: string, props?: GuestBookProps) {
     super(scope, id, props);
     const database = new rds.DatabaseInstance(this, 'Database', {
-      engine: rds.DatabaseInstanceEngine.mysql({ version: rds.MysqlEngineVersion.VER_8_0 }),
+      engine: rds.DatabaseInstanceEngine.mysql({ version: rds.MysqlEngineVersion.VER_8_0_34 }),
       databaseName: GuestbookRdsStack.dbName,
       credentials: rds.Credentials.fromGeneratedSecret('admin'), // Optional - will default to 'admin' username and generated password
       instanceType: ec2.InstanceType.of(ec2.InstanceClass.BURSTABLE3, ec2.InstanceSize.LARGE),
       vpcSubnets: {
-          subnetType: ec2.SubnetType.ISOLATED,
+          subnetType: ec2.SubnetType.PRIVATE_ISOLATED,
       },
       vpc: this.vpc,
       securityGroups: [this.dbSecurityGroup]
